@@ -12,6 +12,11 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(5),
   },
+  slider: {
+    valueLabel: {
+      color: theme.palette.common.white,
+    },
+  },
 }));
 
 const marks = [
@@ -47,7 +52,7 @@ export default function GuessSlider() {
   return(
     <Box className={classes.root}>
       <Typography gutterBottom>
-        Guess a year
+        Guess the year of origin
       </Typography>
       <Slider
         color="secondary"
@@ -60,6 +65,7 @@ export default function GuessSlider() {
         valueLabelFormat={valuetext}
         marks={marks}
         track={false}
+        className={classes.slider}
       />
     </Box>
   );

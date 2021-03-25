@@ -10,7 +10,7 @@ import GuessDialog from '../../components/atoms/GuessDialog';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
   },
   slider: {
     flexGrow: 1,
