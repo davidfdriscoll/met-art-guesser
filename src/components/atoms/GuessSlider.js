@@ -46,7 +46,7 @@ function valuetext(value) {
   return value > 0 ? `${value}` : `${-value}`;
 }
 
-export default function GuessSlider() {
+export default function GuessSlider(props) {
   const classes = useStyles();
 
   return(
@@ -58,7 +58,7 @@ export default function GuessSlider() {
         color="secondary"
         min={-2000}
         max={2020}
-        defaultValue={1}
+        defaultValue={props.defaultGuess}
         getAriaValueText={valuetext}
         aria-labelledby="guess-slider"
         valueLabelDisplay="on"
@@ -66,6 +66,7 @@ export default function GuessSlider() {
         marks={marks}
         track={false}
         className={classes.slider}
+        onChangeCommitted={props.handleSliderChange}
       />
     </Box>
   );

@@ -28,13 +28,15 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  const [currentArt, setCurrentArt] = React.useState(Sample);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box height="100vh" width="100vw" display="flex" flexDirection="column">
         <GuessAppBar />
-        <ArtDisplay imageURL={Sample.primaryImage} />
-        <Guesser />
+        <ArtDisplay imageURL={currentArt.primaryImage} />
+        <Guesser artObject={currentArt} />
       </Box>
     </ThemeProvider>
   );

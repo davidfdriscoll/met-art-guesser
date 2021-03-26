@@ -19,29 +19,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Guesser(props) {
+  const defaultGuess = 1;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [liftboxOpen, setLiftboxOpen] = React.useState(false);
+  const [guess, setGuess] = React.useState(defaultGuess);
 
-  const handleGuess = () => {
-    setOpen(true);
+  function handleGuessButtonPress() {
+    setLiftboxOpen(true);
   }
 
-  const handleClose = () => {
-    setOpen(false);
+  function handleLiftboxClose() {
+    setLiftboxOpen(false);
+  }
+
+  function handleSliderChange(e, value) {
+    setGuess(value);
   }
 
   return(
     <Box className={classes.root} display="flex" boxShadow={15}>
-      <GuessSlider className={classes.slider} />
+      <GuessSlider className={classes.slider} defaultGuess={defaultGuess} handleSliderChange={handleSliderChange} />
       <Button 
         className={classes.guessButton} 
         variant="contained" 
         color="secondary"
-        onClick={handleGuess}
+        onClick={handleGuessButtonPress}
       >
         Guess
       </Button>
-      <GuessDialog open={open} onClose={handleClose} />
+      <GuessDialog guess={guess} artObject={props.artObject} open={liftboxOpen} onClose={handleLiftboxClose} />
     </Box>
   );
 }
