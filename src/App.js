@@ -7,7 +7,6 @@ import Box from '@material-ui/core/Box';
 import GuessAppBar from './components/molecules/GuessAppBar';
 import ArtDisplay from './components/molecules/ArtDisplay';
 import Guesser from './components/molecules/Guesser';
-import Sample from './sample.json';
 
 const theme = createMuiTheme({
   palette: {
@@ -28,14 +27,25 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  const [currentArt, setCurrentArt] = React.useState(Sample);
+  const [currentArt, setCurrentArt] = React.useState();
+
+  React.useEffect(() => {
+    fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects')
+      .then(response => response.json())
+      .then((data) => {
+        const randomObject = data.objectIDs[Math.floor(Math.random() * data.objectIDs.length)];
+        fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObject}`)
+          .then(response => response.json())
+          .then(data => setCurrentArt(data));  
+      });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box height="100vh" width="100vw" display="flex" flexDirection="column">
         <GuessAppBar />
-        <ArtDisplay imageURL={currentArt.primaryImage} />
+        <ArtDisplay artObject={currentArt} />
         <Guesser artObject={currentArt} />
       </Box>
     </ThemeProvider>

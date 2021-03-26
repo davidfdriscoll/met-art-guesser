@@ -3,6 +3,7 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
@@ -10,15 +11,18 @@ import "react-awesome-lightbox/build/style.css";
 const useStyles = makeStyles((theme) => ({
   mainImage: {
     objectFit: 'contain',
-    maxWidth: '100%',
-    maxHeight: '100%',
     cursor: "pointer",
+    padding: theme.spacing(3),
   },
   paper: {
-    margin: theme.spacing(3),
-    padding: theme.spacing(3),
+    // this is a really ugly attempt to do padding within flexbox
+    maxWidth: `calc(100% - ${theme.spacing(6)}px)`,
+    maxHeight: `calc(100% - ${theme.spacing(6)}px)`,
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  loading: {
+    margin: theme.spacing(2),
   }
 }));
 
@@ -35,13 +39,15 @@ export default function ArtDisplay(props) {
   }
 
   return(
-    <Box minWidth="0" minHeight="0" display="flex" justifyContent="center">
+    <Box minWidth="0" minHeight="0" flexGrow={1} display="flex" justifyContent="center" alignItems="center">
       {isImageViewerOpen && (
-        <Lightbox image={props.imageURL} title="Met object" onClose={handleClose} />
+        <Lightbox image={props.artObject.primaryImage} title="Guess the object" onClose={handleClose} />
         )
       }
       <Paper elevation={15} className={classes.paper}>
-        <img className={classes.mainImage} src={props.imageURL} alt="Met object" onClick={handleOpen} />
+        {props.artObject
+        ? <img className={classes.mainImage} src={props.artObject.primaryImage} alt="Guess the object" onClick={handleOpen} />
+        : <CircularProgress className={classes.loading} />}
       </Paper>
     </Box>
   );

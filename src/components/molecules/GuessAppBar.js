@@ -15,9 +15,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Museum from "@material-ui/icons/Museum";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   logoButton: {
     marginRight: theme.spacing(2),
   },

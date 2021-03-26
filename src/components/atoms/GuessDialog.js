@@ -42,7 +42,7 @@ export default function GuessDialog(props) {
   }
 
   function guessDistance() {
-    return Math.min(Math.abs(props.guess - props.artObject.objectBeginDate), Math.abs(props.guess - props.artObject.objectEndDate));
+    return Math.min(Math.abs(props?.guess - props?.artObject?.objectBeginDate), Math.abs(props?.guess - props?.artObject?.objectEndDate));
   }
 
   function calcScore() {
@@ -54,19 +54,18 @@ export default function GuessDialog(props) {
       maxWidth="lg" 
       fullWidth={true}
       onClose={handleClose} 
-      aria-labelledby="simple-dialog-title" 
       open={open}
     >
-      <DialogTitle>{props.artObject.title}</DialogTitle>
+      <DialogTitle>{props?.artObject?.title}</DialogTitle>
       <DialogContent dividers>
-        <Typography gutterBottom><Box fontStyle="italic">{props.artObject.artistDisplayName} ({props.artObject.artistDisplayBio})</Box></Typography>
+        <Typography gutterBottom><Box fontStyle="italic">{props?.artObject?.artistDisplayName} ({props?.artObject?.artistDisplayBio})</Box></Typography>
         <Typography align="center" gutterBottom>Your guess was {guessDistance()} years from the correct range.</Typography>
         <Box px={5} pt={5}>
           <Slider
             color="primary"
             min={-2000}
             max={2020}
-            defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
+            defaultValue={[props.guess, props?.artObject?.objectBeginDate, props?.artObject?.objectEndDate]}
             getAriaValueText={valuetext}
             aria-labelledby="guess-slider"
             valueLabelDisplay="on"
