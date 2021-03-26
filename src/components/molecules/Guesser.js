@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(1),
   },
-  guessButton: {
-  }
 }));
 
 export default function Guesser(props) {
