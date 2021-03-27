@@ -21,24 +21,28 @@ const useStyles = makeStyles((theme) => ({
 
 const marks = [
   {
-    value: -2000,
-    label: '2000 BCE',
-  },
-  {
-    value: -1000,
-    label: '1000 BCE',
+    value: -500,
+    label: '500 BCE',
   },
   {
     value: 1,
     label: '1 CE',
   },
   {
+    value: 500,
+    label: '500 CE',
+  },
+  {
     value: 1000,
     label: '1000 CE',
   },
   {
-    value: 2021,
-    label: '2021 CE',
+    value: 1500,
+    label: '1500 CE',
+  },
+  {
+    value: 2000,
+    label: '2000 CE',
   },
 ];
 
@@ -56,8 +60,8 @@ export default function GuessSlider(props) {
       </Typography>
       <Slider
         color="secondary"
-        min={-2000}
-        max={2020}
+        min={-500}
+        max={new Date().getFullYear()}
         defaultValue={props.defaultGuess}
         getAriaValueText={valuetext}
         aria-labelledby="guess-slider"
@@ -67,6 +71,7 @@ export default function GuessSlider(props) {
         track={false}
         className={classes.slider}
         onChangeCommitted={props.handleSliderChange}
+        disabled={props.disabled}
       />
     </Box>
   );

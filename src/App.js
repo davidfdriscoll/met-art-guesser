@@ -30,20 +30,23 @@ function App() {
   const [currentArt, setCurrentArt] = React.useState();
 
   React.useEffect(() => {
-    fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects')
+    fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""')
       .then(response => response.json())
       .then((data) => {
-        const randomObject = data.objectIDs[Math.floor(Math.random() * data.objectIDs.length)];
-        fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObject}`)
-          .then(response => response.json())
-          .then(data => setCurrentArt(data));  
+        const randomObjectID = data.objectIDs[Math.floor(Math.random() * data.objectIDs.length)];
+        fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`)
+        .then(response => response.json())
+        .then(data => {
+          setCurrentArt(data);
+          console.log(data);
+        });  
       });
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box height="100vh" width="100vw" display="flex" flexDirection="column">
+      <Box height="100vh" display="flex" flexDirection="column">
         <GuessAppBar />
         <ArtDisplay artObject={currentArt} />
         <Guesser artObject={currentArt} />

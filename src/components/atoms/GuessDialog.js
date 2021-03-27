@@ -6,76 +6,86 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
+import { useTheme } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 
 export default function GuessDialog(props) {
+  const theme = useTheme();
   const { onClose, open } = props;
+
+  if(!props.artObject) return null;
 
   const handleClose = () => {
     onClose();
   };
 
-  const marks = [
-    {
-      value: -2000,
-      label: '2000 BCE',
-    },
-    {
-      value: -1000,
-      label: '1000 BCE',
-    },
-    {
-      value: 1,
-      label: '1 CE',
-    },
-    {
-      value: 1000,
-      label: '1000 CE',
-    },
-    {
-      value: 2021,
-      label: '2021 CE',
-    },
-  ];
-
   function valuetext(value) {
+    return value > 0 ? `${value} CE` : `${-value} BCE`;   
+  }
+
+  function valueTextSlider(value) {
     return value > 0 ? `${value}` : `${-value}`;
   }
 
-  function guessDistance() {
-    return Math.min(Math.abs(props?.guess - props?.artObject?.objectBeginDate), Math.abs(props?.guess - props?.artObject?.objectEndDate));
-  }
+  const guessDistance = 
+    (props.guess >= props.artObject.objectBeginDate && props.guess <= props.artObject.objectEndDate)
+    ? 0
+    : Math.min(Math.abs(props.guess - props.artObject.objectBeginDate), Math.abs(props.guess - props.artObject.objectEndDate));
 
-  function calcScore() {
-    return 5000 - guessDistance();
-  }
+  const calcScore = Math.max(500 - guessDistance,0);
+
+  const correctAnswerYear = (props.artObject.objectBeginDate - props.artObject.objectEndDate === 0);
 
   return (
     <Dialog 
-      maxWidth="lg" 
+      maxWidth="md" 
       fullWidth={true}
       onClose={handleClose} 
       open={open}
     >
-      <DialogTitle>{props?.artObject?.title}</DialogTitle>
+      <DialogTitle>
+        <Link target="_blank" rel="noopener noreferrer" href={props.artObject.objectURL} color='initial'>
+          {props.artObject.title}
+        </Link>
+      </DialogTitle>
       <DialogContent dividers>
-        <Typography gutterBottom><Box fontStyle="italic">{props?.artObject?.artistDisplayName} ({props?.artObject?.artistDisplayBio})</Box></Typography>
-        <Typography align="center" gutterBottom>Your guess was {guessDistance()} years from the correct range.</Typography>
+        {props.artObject.artistDisplayName && 
+          <Typography gutterBottom>
+            <Box fontStyle="italic">
+              {props.artObject.artistDisplayName} ({props.artObject.artistDisplayBio})
+            </Box>
+          </Typography>
+        }
+        <Typography align="center" gutterBottom>Your guess was {valuetext(props.guess)}</Typography>
+        <Typography align="center" gutterBottom>
+          {
+            correctAnswerYear
+            ? `The correct year was ${valuetext(props.artObject.objectBeginDate)}`
+            : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}.`
+          }
+          </Typography>
+        <Typography align="center" gutterBottom>
+          {
+            guessDistance === 0
+            ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
+            : `Your guess was ${guessDistance} years from the correct ${correctAnswerYear ? `year` : `range`}.`
+          } 
+        </Typography>
         <Box px={5} pt={5}>
           <Slider
             color="primary"
-            min={-2000}
-            max={2020}
-            defaultValue={[props.guess, props?.artObject?.objectBeginDate, props?.artObject?.objectEndDate]}
-            getAriaValueText={valuetext}
+            min={Math.min(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)-50}
+            max={Math.max(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)+50}
+            defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
+            getAriaValueText={valueTextSlider}
             aria-labelledby="guess-slider"
             valueLabelDisplay="on"
-            valueLabelFormat={valuetext}
-            marks={marks}
+            valueLabelFormat={valueTextSlider}
             track={false}
             disabled
           />
         </Box>
-        <Typography align="center" gutterBottom>You earned {calcScore()} points!</Typography>
+        <Typography align="center" gutterBottom>You earned {calcScore} points!</Typography>
       </DialogContent>
     </Dialog>
   );

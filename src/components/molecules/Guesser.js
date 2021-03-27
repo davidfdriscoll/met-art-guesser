@@ -38,16 +38,27 @@ export default function Guesser(props) {
 
   return(
     <Box className={classes.root} display="flex" boxShadow={15}>
-      <GuessSlider className={classes.slider} defaultGuess={defaultGuess} handleSliderChange={handleSliderChange} />
+      <GuessSlider 
+        className={classes.slider} 
+        defaultGuess={defaultGuess} 
+        handleSliderChange={handleSliderChange} 
+        disabled={!props.artObject} 
+      />
       <Button 
         className={classes.guessButton} 
         variant="contained" 
         color="secondary"
         onClick={handleGuessButtonPress}
+        disabled={!props.artObject}
       >
         Guess
       </Button>
-      <GuessDialog guess={guess} artObject={props.artObject} open={liftboxOpen} onClose={handleLiftboxClose} />
+      <GuessDialog 
+        guess={guess} 
+        artObject={props.artObject} 
+        open={liftboxOpen} 
+        onClose={handleLiftboxClose} 
+      />
     </Box>
   );
 }
