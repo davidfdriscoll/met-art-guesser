@@ -27,15 +27,6 @@ export default function GuessDialog(props) {
     return value > 0 ? `${value}` : `${-value}`;
   }
 
-  const guessDistance = 
-    (props.guess >= props.artObject.objectBeginDate && props.guess <= props.artObject.objectEndDate)
-    ? 0
-    : Math.min(Math.abs(props.guess - props.artObject.objectBeginDate), Math.abs(props.guess - props.artObject.objectEndDate));
-
-  const calcScore = Math.max(500 - guessDistance,0);
-
-  const correctAnswerYear = (props.artObject.objectBeginDate - props.artObject.objectEndDate === 0);
-
   return (
     <Dialog 
       maxWidth="md" 
@@ -44,8 +35,9 @@ export default function GuessDialog(props) {
       open={open}
     >
       <DialogTitle>
+        <Typography variant="body1"><Box fontStyle="italic">{props.artObject.culture}</Box></Typography>
         <Link target="_blank" rel="noopener noreferrer" href={props.artObject.objectURL} color='initial'>
-          {props.artObject.title}
+          {props.artObject.title} 
         </Link>
       </DialogTitle>
       <DialogContent dividers>
@@ -59,16 +51,16 @@ export default function GuessDialog(props) {
         <Typography align="center" gutterBottom>Your guess was {valuetext(props.guess)}</Typography>
         <Typography align="center" gutterBottom>
           {
-            correctAnswerYear
+            props.correctAnswerYear
             ? `The correct year was ${valuetext(props.artObject.objectBeginDate)}`
             : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}.`
           }
           </Typography>
         <Typography align="center" gutterBottom>
           {
-            guessDistance === 0
+            props.guessDistance === 0
             ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
-            : `Your guess was ${guessDistance} years from the correct ${correctAnswerYear ? `year` : `range`}.`
+            : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}.`
           } 
         </Typography>
         <Box px={5} pt={5}>
@@ -85,7 +77,7 @@ export default function GuessDialog(props) {
             disabled
           />
         </Box>
-        <Typography align="center" gutterBottom>You earned {calcScore} points!</Typography>
+        <Typography align="center" gutterBottom>You earned {props.calcScore} points!</Typography>
       </DialogContent>
     </Dialog>
   );

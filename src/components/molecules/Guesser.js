@@ -21,15 +21,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Guesser(props) {
   const defaultGuess = 1;
   const classes = useStyles();
-  const [liftboxOpen, setLiftboxOpen] = React.useState(false);
+  const [guessDialogOpen, setGuessDialogOpen] = React.useState(false);
   const [guess, setGuess] = React.useState(defaultGuess);
 
+  const guessDistance = 
+  (guess >= props?.artObject?.objectBeginDate && guess <= props?.artObject?.objectEndDate)
+  ? 0
+  : Math.min(Math.abs(guess - props?.artObject?.objectBeginDate), Math.abs(guess - props?.artObject?.objectEndDate));
+
+  const calcScore = Math.max(500 - guessDistance,0);
+
+  const correctAnswerYear = (props?.artObject?.objectBeginDate - props?.artObject?.objectEndDate === 0);
+
   function handleGuessButtonPress() {
-    setLiftboxOpen(true);
+    setGuessDialogOpen(true);
   }
 
-  function handleLiftboxClose() {
-    setLiftboxOpen(false);
+  function handleGuessDialogClose() {
+    setGuessDialogOpen(false);
+    props.setCurrentRound(props.currentRound + 1);
+    props.setScore(props.score + calcScore);
   }
 
   function handleSliderChange(e, value) {
@@ -45,7 +56,6 @@ export default function Guesser(props) {
         disabled={props.loading} 
       />
       <Button 
-        className={classes.guessButton} 
         variant="contained" 
         color="secondary"
         onClick={handleGuessButtonPress}
@@ -55,9 +65,12 @@ export default function Guesser(props) {
       </Button>
       <GuessDialog 
         guess={guess} 
+        guessDistance={guessDistance}
+        calcScore={calcScore}
+        correctAnswerYear={correctAnswerYear}
         artObject={props.artObject} 
-        open={liftboxOpen} 
-        onClose={handleLiftboxClose} 
+        open={guessDialogOpen} 
+        onClose={handleGuessDialogClose} 
         loading={props.loading}
       />
     </Box>
