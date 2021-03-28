@@ -57,7 +57,7 @@ export default function ArtDisplay(props) {
         />
       }
       <Paper elevation={15} className={classes.paper}>
-        {props.artObject
+        {!props.loading
         ? <img 
             className={classes.mainImage} 
             src={props.artObject.primaryImage} 

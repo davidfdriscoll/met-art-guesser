@@ -13,7 +13,7 @@ export default function GuessDialog(props) {
   const theme = useTheme();
   const { onClose, open } = props;
 
-  if(!props.artObject) return null;
+  if(props.loading) return null;
 
   const handleClose = () => {
     onClose();

@@ -1,5 +1,7 @@
 import React from "react";
 
+import axios from 'axios';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -26,30 +28,35 @@ const theme = createMuiTheme({
   }, 
 });
 
+const roundsInGame = 5;
+
 function App() {
+  const [currentArtIndex, setCurrentArtIndex] = React.useState(0);
+  const [artObjects, setArtObjects] = React.useState();
+  const [score, setScore] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [currentArt, setCurrentArt] = React.useState();
 
   React.useEffect(() => {
-    fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""')
-      .then(response => response.json())
-      .then((data) => {
-        const randomObjectID = data.objectIDs[Math.floor(Math.random() * data.objectIDs.length)];
-        fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`)
-        .then(response => response.json())
-        .then(data => {
-          setCurrentArt(data);
-          console.log(data);
-        });  
-      });
+    const fetchData = async () => {
+      const posObjListRes = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""');
+      const randomObjectID = posObjListRes.data.objectIDs[Math.floor(Math.random() * posObjListRes.data.objectIDs.length)];
+      const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
+      console.log(objRes.data);
+      setCurrentArt(objRes.data);
+      setIsLoading(false);
+    }
+
+    fetchData();
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box height="100vh" display="flex" flexDirection="column">
-        <GuessAppBar />
-        <ArtDisplay artObject={currentArt} />
-        <Guesser artObject={currentArt} />
+        <GuessAppBar score={score} />
+        <ArtDisplay artObject={currentArt} loading={isLoading} />
+        <Guesser artObject={currentArt} loading={isLoading} />
       </Box>
     </ThemeProvider>
   );

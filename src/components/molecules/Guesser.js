@@ -42,14 +42,14 @@ export default function Guesser(props) {
         className={classes.slider} 
         defaultGuess={defaultGuess} 
         handleSliderChange={handleSliderChange} 
-        disabled={!props.artObject} 
+        disabled={props.loading} 
       />
       <Button 
         className={classes.guessButton} 
         variant="contained" 
         color="secondary"
         onClick={handleGuessButtonPress}
-        disabled={!props.artObject}
+        disabled={props.loading}
       >
         Guess
       </Button>
@@ -58,6 +58,7 @@ export default function Guesser(props) {
         artObject={props.artObject} 
         open={liftboxOpen} 
         onClose={handleLiftboxClose} 
+        loading={props.loading}
       />
     </Box>
   );

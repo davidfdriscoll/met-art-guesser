@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  score: {
+    paddingRight: theme.spacing(3),
+  }
 }));
 
 export default function GuessAppBar(props) {
@@ -34,6 +37,9 @@ export default function GuessAppBar(props) {
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           Met Art Guesser
+        </Typography>
+        <Typography variant="body1" className={classes.score}>
+          Score: {props.score}
         </Typography>
         <FormControl component="fieldset">
           <RadioGroup row aria-label="collection" name="collection" defaultValue="bottom">
