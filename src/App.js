@@ -32,28 +32,28 @@ const roundsInGame = 5;
 
 function App() {
   const [currentArtIndex, setCurrentArtIndex] = React.useState(0);
+  const [possibleArtObjects, setPossibleArtObjects] = React.useState();
   const [artObjects, setArtObjects] = React.useState();
   const [score, setScore] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentArt, setCurrentArt] = React.useState();
 
+  const getNewObject = React.useCallback(async () => {
+    if(!possibleArtObjects) return;
+    const randomObjectID = possibleArtObjects.objectIDs[Math.floor(Math.random() * possibleArtObjects.objectIDs.length)];
+    const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
+    setCurrentArt(objRes.data); 
+    setIsLoading(false);
+  }, [possibleArtObjects]);
+
   React.useEffect(() => {
     const fetchData = async () => {
       const posObjListRes = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""');
-      let objs = [];
-      for(let i=0; i<roundsInGame; i++) {
-        const randomObjectID = posObjListRes.data.objectIDs[Math.floor(Math.random() * posObjListRes.data.objectIDs.length)];
-        const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
-        objs.push(objRes.data);
-      }
-      setArtObjects(objs);
-      setCurrentArtIndex(0);
-      setCurrentArt(objs[0]);
-      setIsLoading(false);
+      setPossibleArtObjects(posObjListRes.data);
     }
 
-    fetchData();
-  }, []);
+    fetchData().then(getNewObject());
+  }, [getNewObject]);
 
   return (
     <ThemeProvider theme={theme}>
