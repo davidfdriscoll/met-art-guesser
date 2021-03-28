@@ -40,10 +40,15 @@ function App() {
   React.useEffect(() => {
     const fetchData = async () => {
       const posObjListRes = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""');
-      const randomObjectID = posObjListRes.data.objectIDs[Math.floor(Math.random() * posObjListRes.data.objectIDs.length)];
-      const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
-      console.log(objRes.data);
-      setCurrentArt(objRes.data);
+      let objs = [];
+      for(let i=0; i<roundsInGame; i++) {
+        const randomObjectID = posObjListRes.data.objectIDs[Math.floor(Math.random() * posObjListRes.data.objectIDs.length)];
+        const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
+        objs.push(objRes.data);
+      }
+      setArtObjects(objs);
+      setCurrentArtIndex(0);
+      setCurrentArt(objs[0]);
       setIsLoading(false);
     }
 
