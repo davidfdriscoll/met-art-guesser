@@ -31,29 +31,34 @@ const theme = createMuiTheme({
 const roundsInGame = 5;
 
 function App() {
-  const [currentArtIndex, setCurrentArtIndex] = React.useState(0);
+  const [currentRound, setRound] = React.useState(0);
   const [possibleArtObjects, setPossibleArtObjects] = React.useState();
-  const [artObjects, setArtObjects] = React.useState();
   const [score, setScore] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentArt, setCurrentArt] = React.useState();
-
-  const getNewObject = React.useCallback(async () => {
-    if(!possibleArtObjects) return;
-    const randomObjectID = possibleArtObjects.objectIDs[Math.floor(Math.random() * possibleArtObjects.objectIDs.length)];
-    const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
-    setCurrentArt(objRes.data); 
-    setIsLoading(false);
-  }, [possibleArtObjects]);
 
   React.useEffect(() => {
     const fetchData = async () => {
       const posObjListRes = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""');
       setPossibleArtObjects(posObjListRes.data);
+      const randomObjectID = posObjListRes.data.objectIDs[Math.floor(Math.random() * posObjListRes.data.objectIDs.length)];
+      const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
+      setCurrentArt(objRes.data); 
+      setIsLoading(false);
     }
+    fetchData();
+  }, []);
 
-    fetchData().then(getNewObject());
-  }, [getNewObject]);
+  function handleNewObject() {
+    const fetchNewObject = async() => {
+      setIsLoading(true);
+      const randomObjectID = possibleArtObjects.objectIDs[Math.floor(Math.random() *possibleArtObjects.objectIDs.length)];
+      const objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
+      setCurrentArt(objRes.data); 
+      setIsLoading(false);
+    }
+    fetchNewObject();
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,7 +66,11 @@ function App() {
       <Box height="100vh" display="flex" flexDirection="column">
         <GuessAppBar score={score} />
         <ArtDisplay artObject={currentArt} loading={isLoading} />
-        <Guesser artObject={currentArt} loading={isLoading} />
+        <Guesser 
+          artObject={currentArt} 
+          handleNewObject={handleNewObject} 
+          loading={isLoading} 
+        />
       </Box>
     </ThemeProvider>
   );
