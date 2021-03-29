@@ -32,7 +32,7 @@ const theme = createMuiTheme({
 const roundsInGame = 5;
 
 function App() {
-  const [currentRound, setCurrentRound] = React.useState(5);
+  const [currentRound, setCurrentRound] = React.useState(1);
   const [possibleArtObjects, setPossibleArtObjects] = React.useState();
   const [score, setScore] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
