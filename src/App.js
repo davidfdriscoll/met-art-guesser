@@ -32,21 +32,29 @@ const theme = createMuiTheme({
 const roundsInGame = 5;
 
 function App() {
-  const [currentRound, setCurrentRound] = React.useState(1);
-  const [possibleArtObjects, setPossibleArtObjects] = React.useState();
-  const [score, setScore] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [possibleArtObjects, setPossibleArtObjects] = React.useState();
+  const [showHighlights, setShowHighlights] = React.useState(true);
+
+  const [currentRound, setCurrentRound] = React.useState(1);
+  const [score, setScore] = React.useState(0);
   const [currentArt, setCurrentArt] = React.useState();
   const [gameEndDialogOpen, setGameEndDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const posObjListRes = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=""');
+      const posObjListRes = await axios.get('https://collectionapi.metmuseum.org/public/collection/v1/search', {
+        params: {
+          hasImages: true,
+          q: "",
+          isHighlight: showHighlights,          
+        }
+      });
       setPossibleArtObjects(posObjListRes.data);
       setIsLoading(false);
     }
     fetchData();
-  }, []);
+  }, [showHighlights]);
 
   React.useEffect(() => {
     const fetchNewObject = async() => {
@@ -78,7 +86,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box height="100vh" display="flex" flexDirection="column">
-        <GuessAppBar score={score} currentRound={currentRound} />
+        <GuessAppBar score={score} currentRound={currentRound} showHighlights={showHighlights} setShowHighlights={setShowHighlights} />
         <ArtDisplay artObject={currentArt} loading={isLoading} />
         <Guesser 
           artObject={currentArt} 

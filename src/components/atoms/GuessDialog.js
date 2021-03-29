@@ -48,19 +48,19 @@ export default function GuessDialog(props) {
             </Box>
           </Typography>
         }
-        <Typography align="center" gutterBottom>Your guess was {valuetext(props.guess)}</Typography>
+        <Typography align="center" gutterBottom>Your guess was {props.guess === -500 ? "500 BCE or earlier" : valuetext(props.guess)}</Typography>
         <Typography align="center" gutterBottom>
           {
             props.correctAnswerYear
             ? `The correct year was ${valuetext(props.artObject.objectBeginDate)}`
-            : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}.`
+            : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}`
           }
           </Typography>
         <Typography align="center" gutterBottom>
           {
             props.guessDistance === 0
             ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
-            : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}.`
+            : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}`
           } 
         </Typography>
         <Box px={5} pt={5}>

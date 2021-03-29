@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 
 import Museum from "@material-ui/icons/Museum";
 
+import HighlightsCheckbox from "../../components/atoms/HighlightsCheckbox";
+
 const useStyles = makeStyles((theme) => ({
   logoButton: {
     marginRight: theme.spacing(2),
@@ -39,6 +41,7 @@ export default function GuessAppBar(props) {
         <Typography variant="body1" className={classes.score}>
           Score: {props.score}
         </Typography>
+        <HighlightsCheckbox showHighlights={props.showHighlights} setShowHighlights={props.setShowHighlights} />
       </Toolbar>
     </AppBar>
   );
