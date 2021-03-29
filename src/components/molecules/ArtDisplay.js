@@ -14,14 +14,12 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     padding: theme.spacing(3),
     maxWidth: "100%",
-    maxHeight: "100%",
   },
   paper: {
-    // this is a really ugly attempt to do padding within flexbox
-    maxWidth: `calc(100% - ${theme.spacing(6)}px)`,
-    maxHeight: `calc(100% - ${theme.spacing(6)}px)`,
+    minHeight: 0,
     display: "flex",
     justifyContent: "center",
+    margin: theme.spacing(3),
   },
   loading: {
     margin: theme.spacing(5),
@@ -44,8 +42,9 @@ export default function ArtDisplay(props) {
     <Box 
       minWidth="0" 
       minHeight="0" 
-      flexGrow={1} 
+      flexGrow="1"
       display="flex" 
+      flexDirection="column"
       justifyContent="center" 
       alignItems="center"
     >
