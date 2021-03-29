@@ -9,8 +9,8 @@ import Slider from '@material-ui/core/Slider';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,  
-    paddingLeft: theme.spacing(5),
-    paddingRight: theme.spacing(5),
+    paddingLeft: theme.spacing(6),
+    paddingRight: theme.spacing(6),
   },
   slider: {
     valueLabel: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const marks = [
   {
     value: -500,
-    label: '500 BCE',
+    label: '500 BCE or earlier',
   },
   {
     value: 1,
