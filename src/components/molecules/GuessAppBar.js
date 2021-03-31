@@ -14,6 +14,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import HighlightsCheckbox from "../../components/atoms/HighlightsCheckbox";
 import DepartmentSelect from "../../components/atoms/DepartmentSelect";
 import SettingsDialog from "../../components/atoms/SettingsDialog";
+import AboutDialog from "../../components/atoms/AboutDialog";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
@@ -43,10 +44,20 @@ export default function GuessAppBar(props) {
     setSettingsDialogOpen(false);
   }
 
+  const [aboutDialogOpen, setAboutDialogOpen] = React.useState(false);
+
+  function handleMuseumIconPress() {
+    setAboutDialogOpen(true);
+  }
+
+  function handleAboutDialogClose() {
+    setAboutDialogOpen(false);
+  }
+
   return(
     <AppBar position="sticky">
       <Toolbar>
-        <IconButton edge="start" className={classes.iconButton} color="inherit" aria-label="museum">
+        <IconButton onClick={handleMuseumIconPress} edge="start" className={classes.iconButton} color="inherit" aria-label="museum">
             <MuseumIcon />
         </IconButton>
         <Typography align="center" variant="h6" className={classes.title}>
@@ -78,9 +89,12 @@ export default function GuessAppBar(props) {
           />
         </Hidden>
       </Toolbar>
+      <AboutDialog 
+        open={aboutDialogOpen} 
+        handleAboutDialogClose={handleAboutDialogClose} 
+      />
       <SettingsDialog 
         open={settingsDialogOpen} 
-        onClose={handleSettingsDialogClose} 
         handleSettingsDialogClose={handleSettingsDialogClose}
         showHighlights={props.showHighlights} 
         setShowHighlights={props.setShowHighlights} 
