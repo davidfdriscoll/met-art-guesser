@@ -1,5 +1,4 @@
 import React from "react";
-
 import axios from 'axios';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -67,10 +66,13 @@ function App() {
         : posObjListRes.data.objectIDs;
       setPossibleArtObjects(posObjs);
     }
-    fetchData();
+    // if show all highlights just use the built-in list
+    if(department === "" && showHighlights) setPossibleArtObjects(HighlightedObjects.objectIds);
+    // otherwise fetch data
+    else fetchData();
   }, [department, showHighlights]);
 
-  // at end of round (score, round change) or change in format (artobjects) get a new object
+  // at end of round (round change) or change in format (artobjects) get a new object
   React.useEffect(() => {
     async function fetchNewObject() {
       setIsLoading(true);
@@ -78,6 +80,7 @@ function App() {
       do {
         const randomObjectID = possibleArtObjects[Math.floor(Math.random() * possibleArtObjects.length)];
         objRes = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`);
+        console.log(objRes.data);
       // hacky; repeatedly hit API for a random object until we get one that has an image
       // usually doesn't require more than two attempts
       } while(!objRes.data.primaryImage)
@@ -95,9 +98,9 @@ function App() {
       setGameEndDialogOpen(true);
       setIsLoading(true);
     }
-  }, [currentRound, possibleArtObjects, score]);
+  }, [currentRound, possibleArtObjects]);
 
-  // and when game end dialog closes reset game
+  // when game end dialog close reset game
   function handleGameEndDialogClose() {
     setGameEndDialogOpen(false);
     setCurrentRound(1);
