@@ -26,7 +26,7 @@ export default function Guesser(props) {
 
   const guessDistance = 
   ((guess >= props?.artObject?.objectBeginDate && guess <= props?.artObject?.objectEndDate) 
-  || (guess >= props?.artObject?.objectEndDate && props?.artObject?.objectEndDate <= -500))
+  || (guess === -500 && props?.artObject?.objectEndDate <= -500))
   ? 0
   : Math.min(Math.abs(guess - props?.artObject?.objectBeginDate), Math.abs(guess - props?.artObject?.objectEndDate));
 

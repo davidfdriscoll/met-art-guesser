@@ -1,5 +1,6 @@
 import React from "react";
 
+import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -9,7 +10,24 @@ import Slider from '@material-ui/core/Slider';
 import { useTheme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 
+const useStyles = makeStyles((theme) => ({
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: theme.spacing(3),
+  },
+  alignLeft: {
+    alignSelf: "flex-start",
+  },
+  slider: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(3),
+  }
+}));
+
 export default function GuessDialog(props) {
+  const classes = useStyles();
   const theme = useTheme();
   const { onClose, open } = props;
 
@@ -20,6 +38,7 @@ export default function GuessDialog(props) {
   };
 
   function valuetext(value) {
+    if (value === -500) return '500 BCE or earlier';
     return value > 0 ? `${value} CE` : `${-value} BCE`;   
   }
 
@@ -35,49 +54,59 @@ export default function GuessDialog(props) {
       open={open}
     >
       <DialogTitle>
-        <Typography variant="body1"><Box fontStyle="italic">{props.artObject.culture}</Box></Typography>
-        <Link target="_blank" rel="noopener noreferrer" href={props.artObject.objectURL} color='initial'>
+        <Typography component={'span'} variant="body1">
+          <Box fontStyle="italic">
+            {props.artObject.culture}
+          </Box>
+        </Typography>
+        <Link 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          href={props.artObject.objectURL} 
+          color='initial'
+        >
           {props.artObject.title} 
         </Link>
-      </DialogTitle>
-      <DialogContent dividers>
         {props.artObject.artistDisplayName && 
-          <Typography gutterBottom>
+          <Typography component={'span'} gutterBottom className={classes.alignLeft}>
             <Box fontStyle="italic">
-              {props.artObject.artistDisplayName} ({props.artObject.artistDisplayBio})
+              {props.artObject.artistDisplayName} {props.artObject.artistDisplayBio ? `(${props.artObject.artistDisplayBio})` : ""}
             </Box>
           </Typography>
         }
-        <Typography align="center" gutterBottom>Your guess was {props.guess === -500 ? "500 BCE or earlier" : valuetext(props.guess)}</Typography>
-        <Typography align="center" gutterBottom>
+      </DialogTitle>
+      <DialogContent dividers className={classes.content}>
+        <Typography component={'span'} gutterBottom>
+          Your guess was {valuetext(props.guess)}
+        </Typography>
+        <Typography component={'span'} gutterBottom>
           {
             props.correctAnswerYear
             ? `The correct year was ${valuetext(props.artObject.objectBeginDate)}`
             : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}`
           }
-          </Typography>
-        <Typography align="center" gutterBottom>
+        </Typography>
+        <Typography component={'span'} gutterBottom>
           {
             props.guessDistance === 0
             ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
             : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}`
           } 
         </Typography>
-        <Box px={5} pt={5}>
-          <Slider
-            color="primary"
-            min={Math.min(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)-50}
-            max={Math.max(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)+50}
-            defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
-            getAriaValueText={valueTextSlider}
-            aria-labelledby="guess-slider"
-            valueLabelDisplay="on"
-            valueLabelFormat={valueTextSlider}
-            track={false}
-            disabled
-          />
-        </Box>
-        <Typography align="center" gutterBottom>You earned {props.calcScore} points!</Typography>
+        <Slider
+          color="primary"
+          min={Math.min(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)-50}
+          max={Math.max(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)+50}
+          defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
+          getAriaValueText={valueTextSlider}
+          aria-labelledby="guess-slider"
+          valueLabelDisplay="on"
+          valueLabelFormat={valueTextSlider}
+          track={false}
+          disabled
+          className={classes.slider}
+        />
+        <Typography component={'span'} gutterBottom>You earned {props.calcScore} points!</Typography>
       </DialogContent>
     </Dialog>
   );

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   loading: {
     margin: theme.spacing(5),
-  }
+  },
 }));
 
 export default function ArtDisplay(props) {

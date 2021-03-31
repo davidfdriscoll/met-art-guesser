@@ -7,6 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 export default function HighlightsCheckbox(props) {
   const handleChange = (event) => {
     props.setShowHighlights(event.target.checked);
+    props.setIsLoading(true);
   };
 
   return (

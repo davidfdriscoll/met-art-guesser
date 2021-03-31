@@ -39,7 +39,7 @@ export default function GameEndDialog(props) {
       <Divider />
       <DialogContent className={classes.content}>
         <DialogContentText>
-          <Typography variant="h4" color="secondary">Your final score was {props.score}.</Typography>          
+          <Typography component={'span'}  variant="h4" color="secondary">Your final score was {props.score}.</Typography>          
         </DialogContentText>
         <Button 
           onClick={props.handleGameEndDialogClose}
