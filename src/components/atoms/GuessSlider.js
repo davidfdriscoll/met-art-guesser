@@ -1,16 +1,22 @@
 import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,  
-    paddingLeft: theme.spacing(6),
-    paddingRight: theme.spacing(6),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(6),
+      paddingRight: theme.spacing(6),
+    },    
   },
   slider: {
     valueLabel: {
@@ -19,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const marks = [
+const marksFull = [
   {
     value: -500,
     label: '500 BCE or earlier',
@@ -66,18 +72,45 @@ const marks = [
   },
 ];
 
+const marksMobile = [
+  {
+    value: -500,
+    label: '<500 BCE',
+  },
+  {
+    value: 1,
+  },
+  {
+    value: 500,
+  },
+  {
+    value: 1000,
+  },
+  {
+    value: 1500,
+    label: '1500 CE',
+  },
+  {
+    value: 2000,
+  },
+];
+
 function valuetext(value) {
   return value > 0 ? `${value}` : `${-value}`;
 }
 
 export default function GuessSlider(props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const largerScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
   return(
     <Box className={classes.root}>
-      <Typography gutterBottom>
-        Guess the year of origin
-      </Typography>
+      <Hidden xsDown>
+        <Typography gutterBottom>
+          Guess the year of origin
+        </Typography>
+      </Hidden>
       <Slider
         color="secondary"
         min={-500}
@@ -87,7 +120,7 @@ export default function GuessSlider(props) {
         aria-labelledby="guess-slider"
         valueLabelDisplay="on"
         valueLabelFormat={valuetext}
-        marks={marks}
+        marks={largerScreen ? marksFull : marksMobile}
         track={false}
         className={classes.slider}
         onChangeCommitted={props.handleSliderChange}

@@ -2,7 +2,7 @@ import React from "react";
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 
 export default function HighlightsCheckbox(props) {
   const handleChange = (event) => {
@@ -13,8 +13,9 @@ export default function HighlightsCheckbox(props) {
   return (
     <FormGroup row>
       <FormControlLabel
-        control={<Checkbox checked={props.showHighlights} onChange={handleChange} name="Highlights" />}
+        control={<Switch checked={props.showHighlights} onChange={handleChange} name="Highlights" />}
         label="Highlights"
+        labelPlacement="start"
       />
     </FormGroup>
   );

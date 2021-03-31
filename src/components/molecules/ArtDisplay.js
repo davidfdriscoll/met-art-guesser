@@ -12,14 +12,18 @@ const useStyles = makeStyles((theme) => ({
   mainImage: {
     objectFit: 'contain',
     cursor: "pointer",
-    padding: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(3),
+    },    
     maxWidth: "100%",
   },
   paper: {
     minHeight: 0,
     display: "flex",
     justifyContent: "center",
-    margin: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(3),
+    },
   },
   loading: {
     margin: theme.spacing(5),
