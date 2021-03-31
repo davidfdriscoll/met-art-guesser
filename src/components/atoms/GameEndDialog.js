@@ -3,7 +3,6 @@ import React from "react";
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,9 +37,7 @@ export default function GameEndDialog(props) {
       <DialogTitle className={classes.title}>You did it!</DialogTitle>
       <Divider />
       <DialogContent className={classes.content}>
-        <DialogContentText>
-          <Typography component={'span'}  variant="h4" color="secondary">Your final score was {props.score}.</Typography>          
-        </DialogContentText>
+        <Typography align="center" variant="h4" color="secondary">Your final score was {props.score}.</Typography>          
         <Button 
           onClick={props.handleGameEndDialogClose}
           variant="contained" 

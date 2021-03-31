@@ -14,7 +14,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    [theme.breakpoints.up('sm')]: {
+      alignItems: "center",
+    },
     padding: theme.spacing(3),
   },
   alignLeft: {
@@ -76,17 +78,17 @@ export default function GuessDialog(props) {
         }
       </DialogTitle>
       <DialogContent dividers className={classes.content}>
-        <Typography component={'span'} gutterBottom>
+        <Typography align="center" gutterBottom>
           Your guess was {valuetext(props.guess)}
         </Typography>
-        <Typography component={'span'} gutterBottom>
+        <Typography align="center" gutterBottom>
           {
             props.correctAnswerYear
             ? `The correct year was ${valuetext(props.artObject.objectBeginDate)}`
             : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}`
           }
         </Typography>
-        <Typography component={'span'} gutterBottom>
+        <Typography align="center" gutterBottom>
           {
             props.guessDistance === 0
             ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
@@ -106,7 +108,7 @@ export default function GuessDialog(props) {
           disabled
           className={classes.slider}
         />
-        <Typography component={'span'} gutterBottom>You earned {props.calcScore} points!</Typography>
+        <Typography align="center" gutterBottom>You earned {props.calcScore} points!</Typography>
       </DialogContent>
     </Dialog>
   );

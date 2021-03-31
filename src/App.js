@@ -4,11 +4,13 @@ import axios from 'axios';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { unstable_createMuiStrictModeTheme as createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import Hidden from '@material-ui/core/Hidden';
 
 import GuessAppBar from './components/molecules/GuessAppBar';
 import ArtDisplay from './components/molecules/ArtDisplay';
 import Guesser from './components/molecules/Guesser';
 import GameEndDialog from './components/atoms/GameEndDialog';
+import InfoDisplay from './components/atoms/InfoDisplay';
 
 // derived from 2021-03-29 data dump: json of objects with 'is highlight' attribute
 import HighlightedObjects from './data/HighlightedObjects.json';
@@ -120,6 +122,12 @@ function App() {
           setDepartment={setDepartment}
           setIsLoading={setIsLoading}
         />
+        <Hidden smUp>
+          <InfoDisplay 
+            score={score}
+            currentRound={currentRound}
+          />
+        </Hidden>
         <ArtDisplay artObject={currentArt} loading={isLoading} />
         <Guesser 
           artObject={currentArt} 

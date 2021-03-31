@@ -54,8 +54,8 @@ export default function GuessAppBar(props) {
         </Typography>
         {/* with small screen show settings icon */}
         <Hidden smUp>
-          <IconButton edge="end" color="inherit" aria-label="settings">
-              <SettingsIcon onClick={handleSettingsIconPress} />
+          <IconButton onClick={handleSettingsIconPress} edge="end" color="inherit" aria-label="settings">
+              <SettingsIcon />
           </IconButton>          
         </Hidden>
         {/* with larger screen put settings in appbar */}
