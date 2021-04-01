@@ -31,6 +31,21 @@ const theme = createMuiTheme({
   shape: {
     borderRadius: 15,
   }, 
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          height: '100%',
+        },
+        body: {
+          height: '100%',
+        },
+        '#root': {
+          height: '100%',          
+        }
+      },
+    },
+  },
 });
 
 const roundsInGame = 5;
@@ -112,7 +127,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box height="100vh" display="flex" flexDirection="column">
+      <Box height="100%" display="flex" flexDirection="column">
         <GuessAppBar 
           score={score} 
           currentRound={currentRound} 
@@ -121,11 +136,13 @@ function App() {
           department={department}
           setDepartment={setDepartment}
           setIsLoading={setIsLoading}
+          roundsInGame={roundsInGame}
         />
         <Hidden smUp>
           <InfoDisplay 
             score={score}
             currentRound={currentRound}
+            roundsInGame={roundsInGame}
           />
         </Hidden>
         <ArtDisplay artObject={currentArt} loading={isLoading} />

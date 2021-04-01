@@ -7,7 +7,7 @@ export default function InfoDisplay(props) {
   return(
     <Box display="flex" justifyContent="space-around">
       <Typography variant="overline">
-        Round: {props.currentRound}
+        Round: {props.currentRound}/{props.roundsInGame}
       </Typography>
       <Typography variant="overline">
         Score: {props.score}

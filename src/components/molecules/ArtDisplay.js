@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'contain',
     cursor: "pointer",
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
     },    
     maxWidth: "100%",
   },
@@ -22,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing(3),
+      marginLeft: theme.spacing(3),
+      marginRight: theme.spacing(3),
     },
   },
   loading: {

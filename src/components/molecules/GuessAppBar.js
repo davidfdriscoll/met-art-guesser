@@ -71,10 +71,10 @@ export default function GuessAppBar(props) {
         </Hidden>
         {/* with larger screen put settings in appbar */}
         <Hidden xsDown>
-          <Typography variant="body2" align="center" className={classes.score}>
-            Round: {props.currentRound}
+          <Typography variant="overline" align="center" className={classes.score}>
+            Round: {props.currentRound}/{props.roundsInGame}
           </Typography>
-          <Typography variant="body2" align="center" className={classes.score}>
+          <Typography variant="overline" align="center" className={classes.score}>
             Score: {props.score}
           </Typography>
           <HighlightsCheckbox 
