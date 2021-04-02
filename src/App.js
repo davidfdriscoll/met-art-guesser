@@ -138,7 +138,7 @@ function App() {
           setIsLoading={setIsLoading}
           roundsInGame={roundsInGame}
         />
-        <Hidden smUp>
+        <Hidden mdUp>
           <InfoDisplay 
             score={score}
             currentRound={currentRound}

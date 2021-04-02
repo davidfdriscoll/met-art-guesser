@@ -10,7 +10,6 @@ export default function SettingsDialog(props) {
   return (
     <Dialog 
       maxWidth="md" 
-      fullWidth={true}
       onClose={props.handleSettingsDialogClose} 
       open={props.open}
     >

@@ -64,13 +64,13 @@ export default function GuessAppBar(props) {
           Met Art Guesser
         </Typography>
         {/* with small screen show settings icon */}
-        <Hidden smUp>
+        <Hidden mdUp>
           <IconButton onClick={handleSettingsIconPress} edge="end" color="inherit" aria-label="settings">
               <SettingsIcon />
           </IconButton>          
         </Hidden>
         {/* with larger screen put settings in appbar */}
-        <Hidden xsDown>
+        <Hidden smDown>
           <Typography variant="overline" align="center" className={classes.score}>
             Round: {props.currentRound}/{props.roundsInGame}
           </Typography>

@@ -11,12 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    width: theme.spacing(20),
-  },
-  inputlabel: {
-    '& .Mui-focused': {
-      color: '#fff',
-    },
+    minWidth: theme.spacing(40),
   },
 }));
 
