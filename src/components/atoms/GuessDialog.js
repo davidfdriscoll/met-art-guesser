@@ -2,13 +2,15 @@ import React from "react";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Slider from '@material-ui/core/Slider';
 import { useTheme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import { marksFull, marksMobile } from '../../data/Marks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -22,15 +24,22 @@ const useStyles = makeStyles((theme) => ({
   alignLeft: {
     alignSelf: "flex-start",
   },
-  slider: {
+  sliderBox: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(6),
+      paddingRight: theme.spacing(6),
+    },
   }
 }));
 
 export default function GuessDialog(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const largerScreen = useMediaQuery(theme.breakpoints.up('sm'));
   const { onClose, open } = props;
 
   if(props.loading) return null;
@@ -77,7 +86,7 @@ export default function GuessDialog(props) {
           </Typography>
         }
       </DialogTitle>
-      <DialogContent dividers className={classes.content}>
+      <Box className={classes.content}>
         <Typography align="center" gutterBottom>
           Your guess was {valuetext(props.guess)}
         </Typography>
@@ -95,21 +104,24 @@ export default function GuessDialog(props) {
             : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}`
           } 
         </Typography>
-        <Slider
-          color="primary"
-          min={Math.min(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)-50}
-          max={Math.max(props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate)+50}
-          defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
-          getAriaValueText={valueTextSlider}
-          aria-labelledby="guess-slider"
-          valueLabelDisplay="on"
-          valueLabelFormat={valueTextSlider}
-          track={false}
-          disabled
-          className={classes.slider}
-        />
+        <Box alignSelf="stretch" display="flex" flexDirection="row">
+          <Box flexGrow={1} className={classes.sliderBox}>
+            <Slider
+            min={-500}
+            max={new Date().getFullYear()}
+            marks={largerScreen ? marksFull : marksMobile}
+            defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
+            getAriaValueText={valueTextSlider}
+            aria-labelledby="guess-slider"
+            valueLabelDisplay="on"
+            valueLabelFormat={valueTextSlider}
+            track={false}
+            disabled
+          />
+          </Box>
+        </Box>
         <Typography align="center" gutterBottom>You earned {props.calcScore} points!</Typography>
-      </DialogContent>
+      </Box>
     </Dialog>
   );
 }

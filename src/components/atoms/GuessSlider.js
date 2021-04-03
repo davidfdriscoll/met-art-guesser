@@ -58,7 +58,6 @@ export default function GuessSlider(props) {
         ValueLabelComponent={WhiteValueLabel}
         marks={largerScreen ? marksFull : marksMobile}
         track={false}
-        className={classes.slider}
         onChangeCommitted={props.handleSliderChange}
         disabled={props.disabled}
       />

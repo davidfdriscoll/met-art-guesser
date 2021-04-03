@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: theme.spacing(40),
   },
+  inputlabel: {
+    root: {
+      '&$focused': {
+        color: theme.palette.primary.dark,
+      },
+    },
+    focused: {},
+  },
 }));
 
 export default function DepartmentSelect(props) {
