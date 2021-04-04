@@ -1,6 +1,6 @@
 import React from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import Slider from '@material-ui/core/Slider';
 import { useTheme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ValueLabel from "@material-ui/core/Slider/ValueLabel";
 
 import { marksFull, marksMobile } from '../../data/Marks';
 
@@ -43,6 +44,30 @@ export default function GuessDialog(props) {
   const { onClose, open } = props;
 
   if(props.loading) return null;
+
+  const StyledValueLabel = withStyles({
+    offset: {
+      top: props => props.index >= 1 ? -28 : -42,
+      left: props => {
+        if(props.index===1) return "calc(-50% + -20px)";
+        else if(props.index===2) return "calc(-50% + 12px)";
+      }
+    },
+    circle: {
+      transform: props => {
+        if(props.index===1) return "rotate(-90deg)";
+        else if(props.index===2) return "rotate(0deg)";
+      },
+      backgroundColor: props => props.index >= 1 && theme.palette.secondary.light,
+      opacity: props => props.index >= 1 && '.9'
+    },
+    label: {
+      transform: props => {
+        if(props.index===1) return "rotate(90deg)";
+        else if(props.index===2) return "rotate(0deg)";      
+      },
+    }
+  })(ValueLabel);
 
   const handleClose = () => {
     onClose();
@@ -104,21 +129,20 @@ export default function GuessDialog(props) {
             : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}`
           } 
         </Typography>
-        <Box alignSelf="stretch" display="flex" flexDirection="row">
-          <Box flexGrow={1} className={classes.sliderBox}>
-            <Slider
-            min={-500}
-            max={new Date().getFullYear()}
-            marks={largerScreen ? marksFull : marksMobile}
-            defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
-            getAriaValueText={valueTextSlider}
-            aria-labelledby="guess-slider"
-            valueLabelDisplay="on"
-            valueLabelFormat={valueTextSlider}
-            track={false}
-            disabled
-          />
-          </Box>
+        <Box alignSelf="stretch" className={classes.sliderBox}>
+          <Slider
+          min={-500}
+          max={new Date().getFullYear()}
+          marks={largerScreen ? marksFull : marksMobile}
+          defaultValue={[props.guess, props.artObject.objectBeginDate, props.artObject.objectEndDate]}
+          getAriaValueText={valueTextSlider}
+          aria-labelledby="guess-slider"
+          valueLabelDisplay="on"
+          valueLabelFormat={valueTextSlider}
+          ValueLabelComponent={StyledValueLabel}
+          track={false}
+          disabled
+        />
         </Box>
         <Typography align="center" gutterBottom>You earned {props.calcScore} points!</Typography>
       </Box>
