@@ -13,13 +13,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: theme.spacing(40),
   },
-  inputlabel: {
-    root: {
-      '&$focused': {
-        color: theme.palette.primary.dark,
-      },
+  inputLabel: {
+    '&.MuiFormLabel-root.Mui-focused': {
+      color: theme.palette.primary.dark,
     },
-    focused: {},
   },
 }));
 
@@ -44,7 +41,11 @@ export default function DepartmentSelect(props) {
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel shrink id="department-select-label" className={classes.inputlabel}>
+      <InputLabel 
+        shrink 
+        id="department-select-label" 
+        className={classes.inputLabel}
+      >
         Department
       </InputLabel>
       <Select
