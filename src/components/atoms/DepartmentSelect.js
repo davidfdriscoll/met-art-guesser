@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: theme.spacing(40),
   },
   inputLabel: {
-    '&.MuiFormLabel-root.Mui-focused': {
+    '&.Mui-focused': {
       color: theme.palette.primary.dark,
     },
   },
