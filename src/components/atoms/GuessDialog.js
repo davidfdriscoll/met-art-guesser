@@ -41,41 +41,84 @@ export default function GuessDialog(props) {
   const classes = useStyles();
   const theme = useTheme();
   const largerScreen = useMediaQuery(theme.breakpoints.up('sm'));
-  const { onClose, open } = props;
 
   if(props.loading) return null;
+
+  const { onClose, open } = props;
+  const isCorrectAnswerYearNotRange = props.isCorrectAnswerYearNotRange;
+  let guessIndex;
+  let rangeStartIndex;
+  let rangeEndIndex;
+
+  if(props.guess < props.artObject.objectBeginDate) {
+    guessIndex = 0;
+    rangeStartIndex = 1;
+    rangeEndIndex = 2;
+  }
+  else if(props.guess > props.artObject.objectEndDate) {
+    guessIndex = 2;
+    rangeStartIndex = 0;
+    rangeEndIndex = 1;    
+  }
+  else {
+    guessIndex = 1;
+    rangeStartIndex = 0;
+    rangeEndIndex = 2;      
+  }
 
   const StyledValueLabel = withStyles({
     offset: {
       left: props => {
-        if(props.index===1) return "calc(-50% + -20px)";
-        else if(props.index===2) return "calc(-50% + 12px)";
+        if(props.index===rangeStartIndex && !isCorrectAnswerYearNotRange) return "calc(-50% + -20px)";
+        else if(props.index===rangeEndIndex && !isCorrectAnswerYearNotRange) return "calc(-50% + 12px)";
       }
     },
     circle: {
       transform: props => {
-        if(props.index===1) return "rotate(-90deg)";
-        else if(props.index===2) return "rotate(0deg)";
+        if(props.index===rangeStartIndex && !isCorrectAnswerYearNotRange) return "rotate(-90deg)";
+        else if(props.index===rangeEndIndex && !isCorrectAnswerYearNotRange) return "rotate(0deg)";
       },
-      backgroundColor: props => props.index === 0 && theme.palette.secondary.main,
-      opacity: props => props.index <= 1 && '.9'
+      backgroundColor: props => props.index===guessIndex && theme.palette.secondary.main,
+      opacity: props => (props.index === rangeStartIndex || props.index===rangeEndIndex) && '.7'
     },
     label: {
       transform: props => {
-        if(props.index===1) return "rotate(90deg)";
-        else if(props.index===2) return "rotate(0deg)";      
+        if(props.index===rangeStartIndex && !isCorrectAnswerYearNotRange) return "rotate(90deg)";
+        else if(props.index===rangeEndIndex && !isCorrectAnswerYearNotRange) return "rotate(0deg)";      
       },
-      color: props => props.index === 0 && theme.palette.common.white,
+      color: props => props.index===guessIndex && theme.palette.common.white,
     }
   })(ValueLabel);
 
-  const GuessSlider = withStyles({
-    thumb: {
-      '&[data-index="0"]': {
-        backgroundColor: theme.palette.secondary.main,
+  // very hacky way to set data-index to 0 1 2 depending on guessIndex without exploring emotion's styled component, which is probably better
+  const GuessSlider = guessIndex===0
+  ? 
+    withStyles({
+      thumb: {
+        '&[data-index="0"]': {
+          backgroundColor: theme.palette.secondary.main,
+        },
       },
-    },
-  })(Slider);
+    })(Slider)
+  : 
+  (guessIndex===1
+  ?   
+    withStyles({
+      thumb: {
+        '&[data-index="1"]': {
+          backgroundColor: theme.palette.secondary.main,
+        },
+      },
+    })(Slider)
+  :
+    withStyles({
+      thumb: {
+        '&[data-index="2"]': {
+          backgroundColor: theme.palette.secondary.main,
+        },
+      },
+    })(Slider)
+  );
 
   const handleClose = () => {
     onClose();
@@ -125,7 +168,7 @@ export default function GuessDialog(props) {
         </Typography>
         <Typography align="center" gutterBottom>
           {
-            props.correctAnswerYear
+            props.isCorrectAnswerYearNotRange
             ? `The correct year was ${valuetext(props.artObject.objectBeginDate)}`
             : `The correct range was ${valuetext(props.artObject.objectBeginDate)} to ${valuetext(props.artObject.objectEndDate)}`
           }
@@ -134,7 +177,7 @@ export default function GuessDialog(props) {
           {
             props.guessDistance === 0
             ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
-            : `Your guess was ${props.guessDistance} years from the correct ${props.correctAnswerYear ? `year` : `range`}`
+            : `Your guess was ${props.guessDistance} years from the correct ${props.isCorrectAnswerYearNotRange ? `year` : `range`}`
           } 
         </Typography>
         <Box alignSelf="stretch" className={classes.sliderBox}>
@@ -142,7 +185,7 @@ export default function GuessDialog(props) {
           min={-500}
           max={new Date().getFullYear()}
           marks={largerScreen ? marksFull : marksMobile}
-          defaultValue={[props.artObject.objectBeginDate, props.artObject.objectEndDate, props.guess]}
+          value={[props.artObject.objectBeginDate, props.artObject.objectEndDate, props.guess]}
           getAriaValueText={valueTextSlider}
           aria-labelledby="guess-slider"
           valueLabelDisplay="on"

@@ -32,7 +32,7 @@ export default function Guesser(props) {
 
   const calcScore = Math.max(500 - guessDistance,0);
 
-  const correctAnswerYear = (props?.artObject?.objectBeginDate - props?.artObject?.objectEndDate === 0);
+  const isCorrectAnswerYearNotRange = (props?.artObject?.objectBeginDate - props?.artObject?.objectEndDate === 0);
 
   function handleGuessButtonPress() {
     setGuessDialogOpen(true);
@@ -68,7 +68,7 @@ export default function Guesser(props) {
         guess={guess} 
         guessDistance={guessDistance}
         calcScore={calcScore}
-        correctAnswerYear={correctAnswerYear}
+        isCorrectAnswerYearNotRange={isCorrectAnswerYearNotRange}
         artObject={props.artObject} 
         open={guessDialogOpen} 
         onClose={handleGuessDialogClose} 
