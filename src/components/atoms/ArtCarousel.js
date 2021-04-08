@@ -1,14 +1,25 @@
 import React from 'react';
 import {nanoid} from 'nanoid';
 
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import { CarouselProvider, Slider, Slide, Image, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import Paper from '@material-ui/core/Paper';
+import Hidden from '@material-ui/core/Hidden';
 import { makeStyles } from '@material-ui/core/styles';
+
+import ArtCarouselButton from '../../components/atoms/ArtCarouselButton';
+import ArtCarouselResetter from '../../components/atoms/ArtCarouselResetter';
 
 const useStyles = makeStyles((theme) => ({
   carousel: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  carouselNavigation: {
+    minHeight: 0,
     display: 'flex',
   },
   slider: {
@@ -23,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     flex: '1 0 auto',
+    alignSelf: 'center',
   },
   paper: {
     minHeight: 0,
@@ -34,19 +46,20 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(3),
     },
   },
-  mainImage: {
+  image: {
     objectFit: 'contain',
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(3),
     },
-    maxWidth: '100%',
-    maxHeight: '100%',
+    flexGrow: 1,
   },
+  dotGroup: {
+    margin: theme.spacing(1),
+  }
 }));
 
 export default function ArtCarousel(props) {
   const classes = useStyles();
-
   if(!props.artObject) return null;
 
   return(
@@ -54,32 +67,41 @@ export default function ArtCarousel(props) {
       totalSlides={props.artObject.additionalImages.length + 1}
       className={classes.carousel}
       isIntrinsicHeight
+      hasMasterSpinner
     >
-      <ButtonBack className={classes.button}>Back</ButtonBack>
-      <Slider className={classes.slider}>
-        <Slide index={0} className={classes.slide}>
-          <Paper elevation={15} className={classes.paper}>
-            <img 
-              className={classes.mainImage} 
-              src={props.artObject.primaryImage}
-              alt="Guess the object" 
-            />
-          </Paper>
-        </Slide>
-        {props.artObject.additionalImages.map((additionalImageURL, additionalImageIndex) => 
-          <Slide key={nanoid()} index={additionalImageIndex+1}>
-            <Paper key={nanoid()} elevation={15} className={classes.paper}>
-              <img 
-                key={nanoid()} 
-                className={classes.mainImage} 
-                src={additionalImageURL} 
+      <ArtCarouselResetter artObject={props.artObject} />
+      <div className={classes.carouselNavigation}>
+        <Hidden smDown>
+          <ArtCarouselButton type='back' className={classes.button} />
+        </Hidden>
+        <Slider className={classes.slider}>
+          <Slide index={0} className={classes.slide}>
+            <Paper elevation={15} className={classes.paper}>
+              <Image
+                className={classes.image} 
+                src={props.artObject.primaryImage}
                 alt="Guess the object" 
               />
             </Paper>
-          </Slide>          
-        )}
-      </Slider>
-      <ButtonNext className={classes.button}>Next</ButtonNext>      
+          </Slide>
+          {props.artObject.additionalImages.map((additionalImageURL, additionalImageIndex) => 
+            <Slide key={nanoid()} index={additionalImageIndex+1}>
+              <Paper key={nanoid()} elevation={15} className={classes.paper}>
+                <Image
+                  key={nanoid()} 
+                  className={classes.image} 
+                  src={additionalImageURL} 
+                  alt="Guess the object" 
+                />
+              </Paper>
+            </Slide>          
+          )}
+        </Slider>
+        <Hidden smDown>
+          <ArtCarouselButton type='next' className={classes.button} />   
+        </Hidden>     
+      </div>
+      <DotGroup className={classes.dotGroup} />
     </CarouselProvider>
   );
 }
