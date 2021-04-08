@@ -45,6 +45,12 @@ export default function GuessDialog(props) {
   if(props.loading) return null;
 
   const { onClose, open } = props;
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  // Styling slider
   const isCorrectAnswerYearNotRange = props.isCorrectAnswerYearNotRange;
   let guessIndex;
   let rangeStartIndex;
@@ -120,10 +126,6 @@ export default function GuessDialog(props) {
     })(Slider)
   );
 
-  const handleClose = () => {
-    onClose();
-  };
-
   function valuetext(value) {
     if (value === -500) return '500 BCE or earlier';
     return value > 0 ? `${value} CE` : `${-value} BCE`;   
@@ -177,7 +179,7 @@ export default function GuessDialog(props) {
           {
             props.guessDistance === 0
             ? <Box color={theme.palette.text.secondary}>Your guess was right!</Box>
-            : `Your guess was ${props.guessDistance} years from the correct ${props.isCorrectAnswerYearNotRange ? `year` : `range`}`
+            : `Your guess was ${props.guessDistance} year${props.guessDistance!==1 ? `s` : ``} from the correct ${props.isCorrectAnswerYearNotRange ? `year` : `range`}`
           } 
         </Typography>
         <Box alignSelf="stretch" className={classes.sliderBox}>
