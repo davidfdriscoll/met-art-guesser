@@ -9,13 +9,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   carousel: {
-    height: '100%',
-    width: '100%',
     display: 'flex',
   },
   slider: {
-    flexGrow: 1,
-    height: '100%',
     '& .carousel__slider-tray-wrapper': {
       height: '100%',
     },
@@ -24,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .carousel__slider-tray-wrapper .carousel__slider-tray .carousel__inner-slide': {
     },
+  },
+  button: {
+    flex: '1 0 auto',
   },
   paper: {
     minHeight: 0,
@@ -39,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'contain',
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing(3),
-    },    
-    maxWidth: "100%",
+    },
+    maxWidth: '100%',
     maxHeight: '100%',
   },
 }));
@@ -56,13 +55,13 @@ export default function ArtCarousel(props) {
       className={classes.carousel}
       isIntrinsicHeight
     >
-      <ButtonBack>Back</ButtonBack>
+      <ButtonBack className={classes.button}>Back</ButtonBack>
       <Slider className={classes.slider}>
         <Slide index={0} className={classes.slide}>
           <Paper elevation={15} className={classes.paper}>
             <img 
               className={classes.mainImage} 
-              src={props.artObject.primaryImage} 
+              src={props.artObject.primaryImage}
               alt="Guess the object" 
             />
           </Paper>
@@ -80,7 +79,7 @@ export default function ArtCarousel(props) {
           </Slide>          
         )}
       </Slider>
-      <ButtonNext>Next</ButtonNext>      
+      <ButtonNext className={classes.button}>Next</ButtonNext>      
     </CarouselProvider>
   );
 }

@@ -13,8 +13,6 @@ export default function ArtDisplay(props) {
       minHeight="0" 
       flexGrow="1"
       display="flex" 
-      flexDirection="column"
-      alignItems="center"
       justifyContent="center"
     >
         {props.isLoading
