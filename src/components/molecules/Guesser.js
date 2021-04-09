@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
     backgroundColor: theme.palette.primary.main,
+    flexShrink: 0,
   },
   slider: {
     flexGrow: 1,
