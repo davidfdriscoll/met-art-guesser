@@ -76,6 +76,7 @@ export default function ArtCarousel(props) {
               className={classes.image} 
               src={props.artObject.primaryImage}
               alt="Guess the object" 
+              hasMasterSpinner
             />
           </Slide>
           {props.artObject.additionalImages.map((additionalImageURL, additionalImageIndex) => 
@@ -85,6 +86,7 @@ export default function ArtCarousel(props) {
                 className={classes.image} 
                 src={additionalImageURL} 
                 alt="Guess the object" 
+                hasMasterSpinner
               />
             </Slide>          
           )}
