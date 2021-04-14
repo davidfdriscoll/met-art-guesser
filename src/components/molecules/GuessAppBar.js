@@ -61,7 +61,7 @@ export default function GuessAppBar(props) {
             <MuseumIcon />
         </IconButton>
         <Typography align="center" variant="h6" className={classes.title}>
-          Met Art Guesser
+          Met Chronoguesser
         </Typography>
         {/* with small screen show settings icon */}
         <Hidden mdUp>
