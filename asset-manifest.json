@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/met-chronoguesser/static/js/main.ea2e0a09.chunk.js",
+    "main.js.map": "/met-chronoguesser/static/js/main.ea2e0a09.chunk.js.map",
+    "runtime-main.js": "/met-chronoguesser/static/js/runtime-main.642c21ad.js",
+    "runtime-main.js.map": "/met-chronoguesser/static/js/runtime-main.642c21ad.js.map",
+    "static/css/2.74c64b29.chunk.css": "/met-chronoguesser/static/css/2.74c64b29.chunk.css",
+    "static/js/2.2f401c71.chunk.js": "/met-chronoguesser/static/js/2.2f401c71.chunk.js",
+    "static/js/2.2f401c71.chunk.js.map": "/met-chronoguesser/static/js/2.2f401c71.chunk.js.map",
+    "index.html": "/met-chronoguesser/index.html",
+    "static/css/2.74c64b29.chunk.css.map": "/met-chronoguesser/static/css/2.74c64b29.chunk.css.map",
+    "static/js/2.2f401c71.chunk.js.LICENSE.txt": "/met-chronoguesser/static/js/2.2f401c71.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.642c21ad.js",
+    "static/css/2.74c64b29.chunk.css",
+    "static/js/2.2f401c71.chunk.js",
+    "static/js/main.ea2e0a09.chunk.js"
+  ]
+}
